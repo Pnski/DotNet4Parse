@@ -2,21 +2,22 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
 
-    <!-- Icon -->
-    <!-- <ApplicationIcon>myicon.ico</ApplicationIcon> -->
+    <ApplicationIcon>dotnet4parse.ico</ApplicationIcon>
 
-    <!-- Assembly Metadata -->
     <AssemblyTitle>DotNet4Parse</AssemblyTitle>
-    <Description>Parser application for UE4 files</Description>
-    <Company>MyCompany</Company>
-    <Product>DotNet4Parse</Product>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+
+    <FileVersion>0.0.1.0</FileVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
+    <Product>Parser application for UE4 files</Product>
+    <Copyright>CC BY-SA</Copyright>
+
+     <!-- Suppress bad metadata warning -->
+    <MSBuildWarningsAsMessages>MSB3246</MSBuildWarningsAsMessages>
   </PropertyGroup>
 
   <ItemGroup>

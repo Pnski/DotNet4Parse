@@ -1,5 +1,7 @@
 using System.IO;
 
+using System.Windows;
+
 using CUE4Parse.UE4.Versions;
 
 using CUE4Parse.Compression;
@@ -14,7 +16,7 @@ namespace Dotnet4Parse.Parse
 {
     public class Mount
     {
-        public DefaultFileProvider LoadAndMount(String UsmapFile, String AesKey, String GamePakDir)
+        public DefaultFileProvider LoadAndMount(String? usmapFile, String? AesKey, String GamePakDir)
         {
             OodleHelper.DownloadOodleDll();
             OodleHelper.Initialize(OodleHelper.OODLE_DLL_NAME);
@@ -23,17 +25,31 @@ namespace Dotnet4Parse.Parse
             ZlibHelper.Initialize(ZlibHelper.DLL_NAME);
 
             var version = new VersionContainer(EGame.GAME_UE4_27);
-            var provider = new DefaultFileProvider(GamePakDir, SearchOption.TopDirectoryOnly, version)
+            var provider = new DefaultFileProvider(GamePakDir, SearchOption.TopDirectoryOnly, version);
+
+            if (usmapFile != null)
             {
-                MappingsContainer = new FileUsmapTypeMappingsProvider(UsmapFile)
+                provider.MappingsContainer = new FileUsmapTypeMappingsProvider(usmapFile);
             };
             provider.Initialize();
-            provider.SubmitKey(new FGuid(), new FAesKey(AesKey));
+            try
+            {
+                provider.SubmitKey(new FGuid(), new FAesKey(AesKey));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No or invalid AesKey provided.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             provider.Mount();
 
             provider.PostMount();
-            provider.LoadLocalization(ELanguage.English);
-
+            try{
+                provider.LoadLocalization(ELanguage.English);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LoadLoca Error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             return provider;
         }
     }

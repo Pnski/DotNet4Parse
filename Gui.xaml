@@ -18,7 +18,7 @@
                 <MenuItem Header="_Options"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="_About"/>
+                <MenuItem Header="_About" Click="openAbout"/>
             </MenuItem>
         </Menu>
 
@@ -29,18 +29,18 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="5">
-                <TreeView x:Name="FolderTree"
-                          VirtualizingStackPanel.IsVirtualizing="True"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          ItemsSource="{Binding RootNodes}">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Children.Values}">
-                            <TextBlock Text="{Binding Name}"/>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </Border>
+            <TreeView   Grid.Column="0"
+                        x:Name="FolderTree"
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        ItemsSource="{Binding RootNodes}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children.Values}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
 
             <Grid Grid.Column="1" Margin="5">
                 <Grid.RowDefinitions>
@@ -56,54 +56,40 @@
                     </StackPanel.Resources>
 
                     <TextBox x:Name="usmapFile"
-                             Text="Click to select .usmap file"
-                             PreviewMouseDown="openUsmap"
-                             ToolTip="Select the .usmap file for parsing."/>
+                            Text="Click to select .usmap file"
+                            PreviewMouseDown="openUsmap"
+                            ToolTip="Select the .usmap file for parsing."/>
                     
                     <TextBox x:Name="GamePakDir"
-                             Text="GamePak Directory"
-                             PreviewMouseDown="openInputFolder"
-                             ToolTip="Specify the directory containing GamePak files."/>
+                            Text="GamePak Directory"
+                            PreviewMouseDown="openInputFolder"
+                            ToolTip="Specify the directory containing GamePak files."/>
                     
                     <TextBox x:Name="OutputDir"
-                             Text="Output Directory"
-                             PreviewMouseDown="openOutputFolder"
-                             ToolTip="Specify the output directory for extracted files."/>
+                            Text="Output Directory"
+                            PreviewMouseDown="openOutputFolder"
+                            ToolTip="Specify the output directory for extracted files."/>
                     
                     <TextBox x:Name="AesKey"
-                             Text="0x005F3903E2E5C5A1B85442C196F2D18321D7203F38E4E19812FEFE17AD26440C"
-                             ToolTip="Enter the AES encryption key."/>
+                            Text="0x005F3903E2E5C5A1B85442C196F2D18321D7203F38E4E19812FEFE17AD26440C"
+                            ToolTip="Enter the AES encryption key."/>
                 </StackPanel>
 
-                <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1">
-                    <DataGrid x:Name="MainDataGrid"
-                              AutoGenerateColumns="True"
-                              IsReadOnly="True"
-                              GridLinesVisibility="Horizontal"
-                              HeadersVisibility="Column"
-                              ToolTip="Displays the data parsed from the selected files."/>
-                </Border>
+                <DataGrid   x:Name="MainDataGrid"
+                            Grid.Row="1" 
+                            AutoGenerateColumns="True"
+                            IsReadOnly="True"
+                            GridLinesVisibility="Horizontal"
+                            HeadersVisibility="Column"/>
             </Grid>
 
-            <StackPanel Grid.Column="2" Margin="5">
-                <StackPanel Orientation="Vertical">
-                    <Button x:Name="BtnFolder"
-                            Click="BtnGetFolder"
-                            Margin="0,0,0,5"
-                            Padding="10">Load Folder</Button>
-                    
-                    <Button x:Name="BtnExtr"
-                            Click="BtnStartExtract"
-                            Background="LightGreen"
-                            FontWeight="Bold"
-                            Margin="0,0,0,15"
-                            Padding="10">Start Extraction</Button>
-                </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Vertical">
+                <Button Click="BtnGetFolder"
+                        Padding="10">Mount Paks</Button>
                 
-                <Separator Margin="0,5,0,5"/>
-                <Label FontWeight="Bold">Actions</Label>
-                <Button Margin="0,5,0,5">Button 1</Button>
-                <Button Margin="0,5,0,5">Button 2</Button>
+                <Button Click="BtnStartExtract"
+                        Padding="10">Start Extraction</Button>
             </StackPanel>
             
         </Grid>
