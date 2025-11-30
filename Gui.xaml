@@ -1,0 +1,111 @@
+﻿<Window x:Class="Dotnet4Parse.Gui"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dotnet4Parse"
+        mc:Ignorable="d"
+        Title="Dotnet4Parse" Height="450" Width="800">
+    <DockPanel>
+        
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Click="openUsmap"/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Settings">
+                <MenuItem Header="_Options"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="5">
+                <TreeView x:Name="FolderTree"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          ItemsSource="{Binding RootNodes}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children.Values}">
+                            <TextBlock Text="{Binding Name}"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="0,0,0,8"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <TextBox x:Name="usmapFile"
+                             Text="Click to select .usmap file"
+                             PreviewMouseDown="openUsmap"
+                             ToolTip="Select the .usmap file for parsing."/>
+                    
+                    <TextBox x:Name="GamePakDir"
+                             Text="GamePak Directory"
+                             PreviewMouseDown="openInputFolder"
+                             ToolTip="Specify the directory containing GamePak files."/>
+                    
+                    <TextBox x:Name="OutputDir"
+                             Text="Output Directory"
+                             PreviewMouseDown="openOutputFolder"
+                             ToolTip="Specify the output directory for extracted files."/>
+                    
+                    <TextBox x:Name="AesKey"
+                             Text="0x005F3903E2E5C5A1B85442C196F2D18321D7203F38E4E19812FEFE17AD26440C"
+                             ToolTip="Enter the AES encryption key."/>
+                </StackPanel>
+
+                <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1">
+                    <DataGrid x:Name="MainDataGrid"
+                              AutoGenerateColumns="True"
+                              IsReadOnly="True"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              ToolTip="Displays the data parsed from the selected files."/>
+                </Border>
+            </Grid>
+
+            <StackPanel Grid.Column="2" Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="BtnFolder"
+                            Click="BtnGetFolder"
+                            Margin="0,0,0,5"
+                            Padding="10">Load Folder</Button>
+                    
+                    <Button x:Name="BtnExtr"
+                            Click="BtnStartExtract"
+                            Background="LightGreen"
+                            FontWeight="Bold"
+                            Margin="0,0,0,15"
+                            Padding="10">Start Extraction</Button>
+                </StackPanel>
+                
+                <Separator Margin="0,5,0,5"/>
+                <Label FontWeight="Bold">Actions</Label>
+                <Button Margin="0,5,0,5">Button 1</Button>
+                <Button Margin="0,5,0,5">Button 2</Button>
+            </StackPanel>
+            
+        </Grid>
+    </DockPanel>
+</Window>
